@@ -7,7 +7,6 @@ on:
 permissions:
   contents: read
   pages: write
-  id-token: write
 
 jobs:
   build:
@@ -22,10 +21,13 @@ jobs:
           node-version: 18
 
       - name: Install frontend dependencies
-        run: npm install --prefix frontend
+        run: npm ci --prefix frontend
 
       - name: Build frontend
         run: npm run build --prefix frontend
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -34,4 +36,4 @@ jobs:
           path: ./frontend/dist
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v1
